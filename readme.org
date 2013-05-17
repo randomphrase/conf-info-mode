@@ -1,0 +1,1 @@
+Emacs conf-mode derivative for Info format files.
