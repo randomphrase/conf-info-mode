@@ -42,11 +42,9 @@ KeyWithChildren {
   (kill-all-local-variables)
   (use-local-map conf-mode-map)
   (conf-mode-initialize ";")
-  (make-local-variable 'conf-assignment-sign)
-  (setq conf-assignment-sign nil)
   (set-syntax-table conf-info-mode-syntax-table)
   (set (make-local-variable 'font-lock-defaults)
-       conf-info-font-lock-keywords)
+       `(conf-info-font-lock-keywords))
   (set (make-local-variable 'indent-line-function) 'conf-info-mode-indent-line)
 )
 

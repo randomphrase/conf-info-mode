@@ -1,6 +1,6 @@
 ; A comment
 key1 value1   ; Another comment
-key2 "value with special characters in it {};#\n\t\"\0"
+key2
 {
    subkey "value split "\
           "over three"\
