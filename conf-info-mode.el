@@ -1,4 +1,3 @@
-
 (require 'conf-mode)
 
 (defvar conf-info-mode-syntax-table
@@ -14,22 +13,11 @@
     table)
   "Syntax table in `conf-info-mode' buffers.")
 
-(defvar conf-info-font-lock-keywords)
-;;  "Keywords to highlight in Conf[Info] mode.")
-
-(setq conf-info-font-lock-keywords
-  '(;; var 
-    ;; ("^[ \t]*\\(.+?\\)[ \t]+"
-    ;;  (1 'font-lock-variable-name-face))
-    ;; section { ... } (do this last because some assign ...{...)
-    ;; ("^[ \t]*\\([^;\n]+?\\)[ \t\n]*{[^{}]*?$"
-    ;;  1 'font-lock-type-face prepend)
-    ;; #include "blah"
-    ("^\\#include[ \t]+\\\".+\\\""
-     0 'font-lock-preprocessor-face)
+(defvar conf-info-font-lock-keywords
+  "Keywords to highlight in Conf[Info] mode."
+  `(("^#include[ \t]+" . font-lock-preprocessor-face)
+    ("^[ \t]*\\([A-Za-z_0-9]+?\\)\\($\\|[ \t]+\\)" 1 font-lock-variable-name-face)
     ))
-
-
 
 (defun conf-info-mode-indent-line ()
   "Extremely simple-minded indentation for conf-info-mode."
