@@ -1,4 +1,4 @@
-* Emacs conf-mode derivative for Info format files.
+*** Emacs major mode for Info format files.
 
 The format is described [[http://www.boost.org/doc/libs/1_53_0/doc/html/boost_propertytree/parsers.html#boost_propertytree.parsers.info_parser][here]], but can be easily explained with an example:
 
@@ -13,3 +13,9 @@ KeyWithChildren {
 }
 #include "file.info"
 #+END_EXAMPLE
+
+This major mode is derived from conf-mode so many of the conf-mode features should work. The specific customizations for Info mode are:
+
+- Syntax table, for navigation and font-lock highlighting
+- Additional font-lock highlighting for keywords
+- Limited indentation
