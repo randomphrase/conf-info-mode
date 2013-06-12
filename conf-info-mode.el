@@ -1,3 +1,4 @@
+
 (require 'conf-mode)
 
 (defvar conf-info-mode-syntax-table
@@ -5,7 +6,7 @@
     (modify-syntax-entry ?{ "(" table)
     (modify-syntax-entry ?} ")" table)
     (modify-syntax-entry ?\\ "\\" table)    
-    (modify-syntax-entry ?_ "_" table)    
+    (modify-syntax-entry ?_ "w" table)
     (modify-syntax-entry ?\; "<" table)
     (modify-syntax-entry ?\n ">" table)
     (modify-syntax-entry ?\r ">" table)
@@ -14,15 +15,28 @@
   "Syntax table in `conf-info-mode' buffers.")
 
 (defvar conf-info-font-lock-keywords
-  "Keywords to highlight in Conf[Info] mode."
-  `(("^#include[ \t]+" . font-lock-preprocessor-face)
-    ("^[ \t]*\\([A-Za-z_0-9]+?\\)\\($\\|[ \t]+\\)" 1 font-lock-variable-name-face)
-    ))
+  `((
+     ;; key blah
+     ("^[ \t]*\\(\\sw+\\)"
+      (1 font-lock-variable-name-face))
+     ;; #include "blah"
+     ("^#include" . font-lock-preprocessor-face)
+     ))
+  "Keywords to highlight in Conf[Info] mode.")
 
 (defun conf-info-mode-indent-line ()
-  "Extremely simple-minded indentation for conf-info-mode."
-  (indent-to (* tab-width (car (syntax-ppss))))
-  )
+  "Indent current line of Sample code."
+  (interactive)
+  (let ((savep (> (current-column) (current-indentation)))
+        (indent (condition-case nil (max (conf-info-mode-calculate-indentation) 0)
+                  (error 0))))
+    (if savep
+        (save-excursion (indent-line-to indent))
+      (indent-line-to indent))))
+
+(defun conf-info-mode-calculate-indentation ()
+  "Calculate the column to which the current line should be indented for `conf-info-mode'."
+  (* tab-width (car (syntax-ppss))))
 
 ;;;###autoload
 (define-derived-mode conf-info-mode conf-mode "Conf[Info]"
@@ -39,13 +53,14 @@ KeyWithChildren {
     }
 }
 #include \"file.info\""
-  (kill-all-local-variables)
-  (use-local-map conf-mode-map)
+
+  :syntax-table conf-info-mode-syntax-table
+  
   (conf-mode-initialize ";")
-  (set-syntax-table conf-info-mode-syntax-table)
-  (set (make-local-variable 'font-lock-defaults)
-       `(conf-info-font-lock-keywords))
-  (set (make-local-variable 'indent-line-function) 'conf-info-mode-indent-line)
-)
+  ;; (make-local-variable 'conf-assignment-sign)
+  ;; (setq conf-assignment-sign nil)
+  (setq font-lock-defaults conf-info-font-lock-keywords)
+  (setq indent-line-function 'conf-info-mode-indent-line)
+  )
 
 (provide 'conf-info-mode)

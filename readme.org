@@ -1,1 +1,15 @@
-Emacs conf-mode derivative for Info format files.
+* Emacs conf-mode derivative for Info format files.
+
+The format is described [[http://www.boost.org/doc/libs/1_53_0/doc/html/boost_propertytree/parsers.html#boost_propertytree.parsers.info_parser][here]], but can be easily explained with an example:
+
+#+BEGIN_EXAMPLE
+; Comment
+Key 0
+KeyWithChildren {
+    Child1 "String"
+    Child2 {
+        "StringKey" "Escaped \"Value\""
+    }
+}
+#include "file.info"
+#+END_EXAMPLE
